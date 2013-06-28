@@ -100,6 +100,28 @@ by Prelude.")
   (message "Loading personal configuration files in %s..." prelude-personal-dir)
   (mapc 'load (directory-files prelude-personal-dir 't "^[^#].*el$")))
 
+
+;; -------------- start personal settings
+(disable-theme 'zenburn)
+(load-theme 'solarized-dark t)
+(global-hl-line-mode 0)
+(global-linum-mode t)
+
+(defun start-irc ()
+  (interactive)
+  (erc-tls :server "irc.mozilla.org" :port 6697
+           :nick "jyeo" :full-name "jyeo" :password "102837")
+  (setq erc-autojoin-channels-alist '(("mozilla.org" "#interns" "#toronto"
+                                       "#rust" "#servo" "#emscripten"
+                                       "#releng" "#mozbuild BlueDiamonds"))))
+
+(autoload 'erc-nick-notify-mode "erc-nick-notify"
+  "Minor mode that calls `erc-nick-notify-cmd' when his nick gets
+mentioned in an erc channel" t)
+
+(eval-after-load 'erc '(erc-nick-notify-mode t))
+;; --------------- end personal settings
+
 (message "Prelude is ready to do thy bidding, Master %s!" (getenv "USER"))
 
 (prelude-eval-after-init
